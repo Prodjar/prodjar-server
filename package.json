@@ -1,0 +1,24 @@
+{
+  "name": "Prodjar-Server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "server": "nodemon index.js",
+    "client": "yarn start --prefix client",
+    "dev": "concurrently \"yarn server\" \"yarn client\""
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "concurrently": "^4.1.0",
+    "express": "^4.16.4",
+    "nodemailer": "^5.1.1",
+    "nodemailer-smtp-transport": "^2.7.4",
+    "nodemon": "^1.18.10"
+  },
+  "devDependencies": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
