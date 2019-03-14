@@ -4,8 +4,23 @@ const nodemailer = require('nodemailer');
 const smtpTransport = require('nodemailer-smtp-transport');
 const app = express();
 const cors = require('cors');
-
-app.use(cors());
+var allowedOrigins = ['http://localhost:3001',
+                      'http://prodjar.com',
+                      'https://prodjar.com',
+                      'prodjar.com'];
+app.use(cors({
+    origin: function (origin, callback) {
+        // allow requests with no origin 
+        // (like mobile apps or curl requests)
+        if (!origin) return callback(null, true);
+        if (allowedOrigins.indexOf(origin) === -1) {
+            var msg = 'The CORS policy for this site does not ' +
+                'allow access from the specified Origin.';
+            return callback(new Error(msg), false);
+        }
+        return callback(null, true);
+    }
+}))
 app.use(function(req, res, next) {
    res.header("Access-Control-Allow-Origin", "*");
    res.header('Access-Control-Allow-Methods', 'DELETE, PUT, GET, POST');
@@ -42,7 +57,7 @@ app.post('/api/form', (req, res) => {
         // setup email data with unicode symbols
         let mailOptions = {
             from: '"New User 👻" <text@example.com>', // sender address
-            to: "km.akbarbasha@gmail.com, hello@prodjar.com", // list of receivers
+            to: "km.akbarbasha@gmail.com", // list of receivers
             subject: `New User ${req.body.name}`, // Subject line
             text: `${req.body.message}`, // plain text body
             html: htmlEmail // html body
@@ -50,8 +65,10 @@ app.post('/api/form', (req, res) => {
         // send mail with defined transport object
         transporter.sendMail(mailOptions, (err, info) => {
             if (err) {
+                res.sendStatus(403);
                 return console.log(err);
             }
+            res.sendStatus(200);
             console.log('Message Sent: %s', info.message);
             console.log('Message URL: %s', nodemailer.getTestMessageUrl(info));
         })
