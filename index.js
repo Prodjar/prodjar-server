@@ -51,7 +51,7 @@ app.post('/api/form', (req, res) => {
                 // user: 'leone.will@ethereal.email',
                 // pass: 'VJytN1MAXMqKKatPaF'
                 user: 'akbaranj@gmail.com',
-                pass: 'ASDdsa2439@A'
+                pass: 'testPassword@A'
             }
         }));
         // setup email data with unicode symbols
